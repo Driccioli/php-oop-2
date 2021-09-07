@@ -5,28 +5,26 @@
         private $country;
         private $addresses = [];
 
-        private $premium;
         private $cart = [];
 
         private $productsPrice;
-        private $expeditionPrice;
+        private $expeditionsPrice;
         private $totalPrice;
 
-        function __construct(string $userName, string $country, array $addresses, bool $premium){
+        function __construct(string $userName, string $country, array $addresses){
             $this->userName = $userName;
             $this->country = $country;
             $this->addresses = $addresses;
-            $this->premium = $premium;
         }
 
-        function addProduct(Product $product, int $quantity){
+        public function addProduct(Product $product, int $quantity){
             for($i=1;$i<$quantity;$i++){
                 array_push($this->cart,$product);
             }
-            //Todo: Add function that recalculates prices
+            $this->calculatePrice();
         }
 
-        function removeProduct(Product $product, $quantity){
+        public function removeProduct(Product $product, $quantity){
             for($i=1;$i<$quantity;$i++){
                 $productToDelete = array_search($product, $this->cart);
                 if($productToDelete === false){
@@ -36,7 +34,38 @@
                 unset($productToDelete);
                 array_values($this->cart);
             }
-            //Todo: Add function that recalculates prices
+            $this->calculatePrice();
+        }
+
+        function calculatePrice(){
+            $this->productsPrice = 0;
+            $this->expeditionsPrice = 0;
+            $this->totalPrice = 0;
+
+            foreach($this->cart as $product){
+                $this->productsPrice += $product->price;
+                $this->expeditionsPrice += $product->expeditionprice;
+            }
+            $this->totalPrice = $this->productsPrice + $this->expeditionsPrice;
+        }
+    }
+
+    class PremiumUser extends User{
+        private $expeditionsPrice = 0;
+
+        function calculatePrice(){
+
+            //Variant that removes expedition price and adds discount to the total price
+
+            $this->productsPrice = 0;
+            $this->totalPrice = 0;
+
+            $discount = 20;
+
+            foreach($this->cart as $product){
+                $this->productsPrice += $product->price;
+            }
+            $this->totalPrice = $this->productsPrice - (($this->productsPrice /100)*$discount);
         }
     }
 
