@@ -1,5 +1,5 @@
 <?php
-
+    require "credit-cards.php";
     class User{
         public $userName;
         private $country;
@@ -10,6 +10,8 @@
         private $productsPrice;
         private $expeditionsPrice;
         private $totalPrice;
+
+        private $creditCards = [];
 
         function __construct(string $userName, string $country, array $addresses){
             $this->userName = $userName;
@@ -47,6 +49,41 @@
                 $this->expeditionsPrice += $product->expeditionprice;
             }
             $this->totalPrice = $this->productsPrice + $this->expeditionsPrice;
+        }
+
+        public function addCreditCard(Card $creditCard){
+            array_push($this->creditCards, $creditCard);
+        }
+
+        public function removeCreditCard(Card $creditCard){
+            $cardToDelete = array_search($card, $this->creditCards);
+            if($cardToDelete === false){
+                throw new Exception ('Card does not exist');
+                return;
+            }
+            unset($cardToDelete);
+            array_values($this->creditCards);
+        }
+
+        public function buy(Card $creditCard){
+            $cardToUse = array_search($card, $this->creditCards);
+
+            if($cardToUse === false){
+                throw new Exception ('Card does not exist');
+                return;
+            }
+
+            if($cardToUse->money < $this->totalPrice){
+                throw new Exception ("You don't have enough money to purchase");
+                return;
+            }
+
+            $cardtoUse->money -= $this->totalPrice;
+            $this->productsPrice = 0;
+            $this->expeditionsPrice = 0;
+            $this->totalPrice = 0;
+
+            $this->cart = [];
         }
     }
 
