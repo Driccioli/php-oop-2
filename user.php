@@ -5,7 +5,7 @@
         private $country;
         private $addresses = [];
 
-        private $cart = [];
+        public $cart = [];
 
         private $productsPrice;
         private $expeditionsPrice;
@@ -21,7 +21,7 @@
 
         public function addProduct(Product $product, int $quantity){
             for($i=1;$i<$quantity;$i++){
-                array_push($this->cart,$product);
+                $this->cart[]=$product;
             }
             $this->calculatePrice();
         }
@@ -46,13 +46,13 @@
 
             foreach($this->cart as $product){
                 $this->productsPrice += $product->price;
-                $this->expeditionsPrice += $product->expeditionprice;
+                $this->expeditionsPrice += $product->expeditionPrice;
             }
             $this->totalPrice = $this->productsPrice + $this->expeditionsPrice;
         }
 
         public function addCreditCard(Card $creditCard){
-            array_push($this->creditCards, $creditCard);
+            $this->creditCards[] = $creditCard;
         }
 
         public function removeCreditCard(Card $creditCard){

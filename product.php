@@ -7,7 +7,7 @@
         public $expeditionPrice;
         public $productType;
 
-        function __construct(string $name, string $brand, float $price, string $productType){
+        function __construct(string $name, string $brand, float $price, float $expeditionPrice, string $productType){
             $this->name = $name;
             $this->brand = $brand;
             $this->price = $price;

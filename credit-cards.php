@@ -10,7 +10,7 @@
         function __construct(string $owner, int $number, string $expirationDate, int $secretCode, float $money){
             
 
-            $currentDate = new DateTime();
+            $currentDate = getdate();
             if($expirationDate > $currentDate){
                 throw new Exception("This credit card has expired.");
                 return;
