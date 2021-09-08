@@ -19,8 +19,12 @@
     $altUser->addProduct($tv, 1);
     $altUser->addProduct($ps5, 1);
     
+    echo "<h1> First User:</h1>";
     var_dump($firstUser);
+    echo "<h1> Alternative User:</h1>";
     var_dump($altUser);
+    echo "<hr>";
     $altUser->addProduct($pen, 1);
+    echo "<h1> Alternative User:</h1>";
     var_dump($altUser);
 ?>
